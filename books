@@ -1,0 +1,533 @@
+font-size: 1rem;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .rating-input i {
+            font-size: 1.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating-input i.active {
+            color: #f1c40f;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            width: 100%;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .books-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .books-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .add-book-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-book"></i> Мої улюблені книги</h1>
+            <p class="subtitle">Колекція найкращих книг, які я прочитав</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <h2>Ласкаво прошу до моєї книжкової колекції!</h2>
+            <p>Тут я зібрав свої улюблені книги різних жанрів. Кожна з них залишила свій слід у моєму серці та розумі. Діліться своїми враженнями та додавайте власні улюблені книги до колекції!</p>
+        </section>
+
+        <section id="books-list">
+            <h2 style="margin-bottom: 1.5rem; color: var(--primary-color);">Моя колекція книг</h2>
+            <div class="books-container" id="books-container">
+                <!-- Книги будуть додані через JavaScript -->
+            </div>
+        </section>
+
+        <section class="add-book-form">
+            <h2 class="form-title">Додати нову книгу</h2>
+            <form id="book-form">
+                <div class="form-group">
+                    <label for="title">Назва книги *</label>
+                    <input type="text" id="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="author">Автор *</label>
+                    <input type="text" id="author" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Опис книги</label>
+                    <textarea id="description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="genre">Жанр</label>
+                    <select id="genre">
+                        <option value="Фантастика">Фантастика</option>
+                        <option value="Детектив">Детектив</option>
+                        <option value="Роман">Роман</option>
+                        <option value="Поезія">Поезія</option>
+<option value="Біографія">Біографія</option>
+                        <option value="Історичний">Історичний</option>
+                        <option value="Наукова література">Наукова література</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Рейтинг</label>
+                    <div class="rating-input">
+                        <i class="fas fa-star" data-value="1"></i>
+                        <i class="fas fa-star" data-value="2"></i>
+                        <i class="fas fa-star" data-value="3"></i>
+                        <i class="fas fa-star" data-value="4"></i>
+                        <i class="fas fa-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="rating" value="5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">URL зображення</label>
+                    <input type="text" id="image" placeholder="https://example.com/book-cover.jpg">
+                </div>
+                
+                <button type="submit" class="btn">Додати книгу</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-book"></i> Мої улюблені книги
+                </div>
+                <div>
+                    Створено з любов'ю до літератури
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Всі права захищені
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Початковий список книг
+        const initialBooks = [
+            {
+                id: 1,
+                title: "Майстер і Маргарита",
+                author: "Михайло Булгаков",
+                description: "Філософський роман-казка, який поєднує реалізм та фантастику, гумор та серйозність.",
+                genre: ["Фантастика", "Роман"],
+                rating: 5,
+                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 2,
+                title: "Гаррі Поттер і філософський камінь",
+                author: "Джоан Роулінг",
+                description: "Перша книга серії про юного чарівника Гаррі Поттера, який дізнається про свою справжню природу.",
+                genre: ["Фантастика"],
+                rating: 5,
+                image: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 3,
+                title: "1984",
+                author: "Джордж Орвелл",
+                description: "Антиутопічний роман про суспільство тотальної контролю та втрати особистої свободи.",
+                genre: ["Фантастика", "Антиутопія"],
+                rating: 4,
+                image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 4,
+                title: "Маленький принц",
+                author: "Антуан де Сент-Екзюпері",
+                description: "Філософська казка-притча про дружбу, любов та відповідальність.",
+                genre: ["Філософія", "Казка"],
+                rating: 5,
+                image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 5,
+                title: "Злочин і кара",
+                author: "Федір Достоєвський",
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мої улюблені книги</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .intro {
+            text-align: center;
+            padding: 2.5rem 0;
+            background-color: white;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .books-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .book-image {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .book-author {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .book-description {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .book-rating {
+            color: #f1c40f;
+            margin-bottom: 1rem;
+        }
+
+        .book-genre {
+            display: inline-block;
+            background-color: var(--light-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-book-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+description: "Психологічний роман про студента, який вчиняє вбивство та бореться з почуттям провини.",
+                genre: ["Психологія", "Роман"],
+                rating: 4,
+                image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            },
+            {
+                id: 6,
+                title: "Гордість і упередження",
+                author: "Джейн Остін",
+                description: "Класичний роман про кохання, соціальний статус та стосунки в англійському суспільстві XIX століття.",
+                genre: ["Роман", "Класика"],
+                rating: 5,
+                image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            }
+        ];
+
+        // Зберігаємо книги у localStorage або використовуємо початкові
+        let books = JSON.parse(localStorage.getItem('books')) || initialBooks;
+
+        // Функція для відображення книг
+        function displayBooks() {
+            const booksContainer = document.getElementById('books-container');
+            booksContainer.innerHTML = '';
+
+            books.forEach(book => {
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                
+                // Створюємо рейтинг у вигляді зірочок
+                let stars = '';
+                for (let i = 1; i <= 5; i++) {
+                    stars += <i class="fas fa-star ${i <= book.rating ? 'active' : ''}"></i>;
+                }
+                
+                // Створюємо теги жанрів
+                let genreTags = '';
+                if (Array.isArray(book.genre)) {
+                    book.genre.forEach(genre => {
+                        genreTags += <span class="book-genre">${genre}</span>;
+                    });
+                } else {
+                    genreTags = <span class="book-genre">${book.genre}</span>;
+                }
+                
+                bookCard.innerHTML = `
+                    <img src="${book.image}" alt="${book.title}" class="book-image">
+                    <div class="book-info">
+                        <h3 class="book-title">${book.title}</h3>
+                        <p class="book-author">${book.author}</p>
+                        <div class="book-rating">${stars}</div>
+                        <p class="book-description">${book.description}</p>
+                        <div>${genreTags}</div>
+                    </div>
+                `;
+                
+                booksContainer.appendChild(bookCard);
+            });
+            
+            // Зберігаємо книги у localStorage
+            localStorage.setItem('books', JSON.stringify(books));
+        }
+
+        // Функція для додавання нової книги
+        function addBook(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+            const description = document.getElementById('description').value;
+            const genre = document.getElementById('genre').value;
+            const rating = parseInt(document.getElementById('rating').value);
+            const image = document.getElementById('image').value || 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80';
+            
+            const newBook = {
+                id: books.length + 1,
+                title,
+                author,
+                description,
+                genre: [genre],
+                rating,
+                image
+            };
+            
+            books.push(newBook);
+            displayBooks();
+            
+            // Очищаємо форму
+            document.getElementById('book-form').reset();
+            document.getElementById('rating').
+value = 5;
+            
+            // Оновлюємо зірочки рейтингу
+            const stars = document.querySelectorAll('.rating-input i');
+            stars.forEach(star => {
+                star.classList.remove('active');
+                if (parseInt(star.getAttribute('data-value')) <= 5) {
+                    star.classList.add('active');
+                }
+            });
+            
+            // Прокручуємо до списку книг
+            document.getElementById('books-list').scrollIntoView({ behavior: 'smooth' });
+            
+            alert('Книгу успішно додано до колекції!');
+        }
+
+        // Обробник рейтингу (зірочки)
+        document.querySelectorAll('.rating-input i').forEach(star => {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                document.getElementById('rating').value = value;
+                
+                // Оновлюємо вигляд зірочок
+                document.querySelectorAll('.rating-input i').forEach(s => {
+                    if (parseInt(s.getAttribute('data-value')) <= value) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Ініціалізація при завантаженні сторінки
+        document.addEventListener('DOMContentLoaded', function() {
+            displayBooks();
+            
+            // Додаємо обробник для форми
+            document.getElementById('book-form').addEventListener('submit', addBook);
+            
+            // Встановлюємо активні зірочки рейтингу за замовчуванням
+            const stars = document.querySelectorAll('.rating-input i');
+            stars.forEach(star => {
+                if (parseInt(star.getAttribute('data-value')) <= 5) {
+                    star.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
